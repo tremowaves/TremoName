@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đổi tên file hàng loạt</title>
+  <style>
+    body { font-family: Arial; margin: 30px; }
+    label { display: block; margin-top: 15px; }
+    input[type=text] { width: 300px; padding: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+    #result { margin-top: 20px; color: green; }
+    #error { margin-top: 20px; color: red; }
+  </style>
+</head>
+<body>
+  <h2>Đổi tên file hàng loạt</h2>
+  <label>Thư mục:
+    <input type="text" id="folder" readonly>
+    <button id="choose-folder">Chọn...</button>
+  </label>
+  <label>Đuôi cũ (ví dụ: .sty): <input type="text" id="oldExt"></label>
+  <label>Đuôi mới (ví dụ: .midi): <input type="text" id="newExt"></label>
+  <label>Chuỗi cần thay (có thể bỏ trống): <input type="text" id="findStr"></label>
+  <label>Thay bằng (có thể bỏ trống): <input type="text" id="replaceStr"></label>
+  <label><input type="checkbox" id="recursive"> Quét cả thư mục con</label>
+  <button id="run">Đổi tên</button>
+  <div id="result"></div>
+  <div id="error"></div>
+  <script src="renderer.js"></script>
+</body>
+</html> 

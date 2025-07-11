@@ -1,0 +1,52 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm/
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+.env.*
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# VSCode settings
+.vscode/
+
+# Electron specific
+*.asar
+
+# Sentry CLI
+.sentryclirc
+
+# IDEs
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Project docs (if not needed in repo)
+TremoNameDoc/ 
