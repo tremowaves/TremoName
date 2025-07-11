@@ -4,28 +4,62 @@
   <meta charset="UTF-8">
   <title>Đổi tên file hàng loạt</title>
   <style>
-    body { font-family: Arial; margin: 30px; }
-    label { display: block; margin-top: 15px; }
-    input[type=text] { width: 300px; padding: 5px; }
-    button { margin-top: 20px; padding: 10px 20px; }
-    #result { margin-top: 20px; color: green; }
-    #error { margin-top: 20px; color: red; }
+    body { font-family: Arial, sans-serif; margin: 30px; background: #f7f7f7; }
+    .container { max-width: 700px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px #ccc; }
+    h2 { text-align: center; }
+    .drop-area { border: 2px dashed #888; padding: 30px; text-align: center; color: #888; margin-bottom: 20px; border-radius: 8px; background: #fafafa; }
+    .input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .input-row label { min-width: 110px; }
+    .input-row input[type=text] { flex: 1; padding: 6px; border-radius: 4px; border: 1px solid #ccc; }
+    .file-list { max-height: 200px; overflow-y: auto; background: #f0f0f0; border-radius: 6px; padding: 10px; margin-bottom: 20px; }
+    .file-list li { font-size: 13px; }
+    button { padding: 10px 20px; border: none; background: #1976d2; color: #fff; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    button:disabled { background: #aaa; }
+    #result { margin-top: 20px; color: green; text-align: center; }
+    #error { margin-top: 20px; color: red; text-align: center; }
+    .flex-row { display: flex; align-items: center; gap: 10px; }
   </style>
 </head>
 <body>
-  <h2>Đổi tên file hàng loạt</h2>
-  <label>Thư mục:
-    <input type="text" id="folder" readonly>
-    <button id="choose-folder">Chọn...</button>
-  </label>
-  <label>Đuôi cũ (ví dụ: .sty): <input type="text" id="oldExt"></label>
-  <label>Đuôi mới (ví dụ: .midi): <input type="text" id="newExt"></label>
-  <label>Chuỗi cần thay (có thể bỏ trống): <input type="text" id="findStr"></label>
-  <label>Thay bằng (có thể bỏ trống): <input type="text" id="replaceStr"></label>
-  <label><input type="checkbox" id="recursive"> Quét cả thư mục con</label>
-  <button id="run">Đổi tên</button>
-  <div id="result"></div>
-  <div id="error"></div>
+  <div class="container">
+    <h2>Đổi tên file hàng loạt</h2>
+    <div class="drop-area" id="drop-area">Kéo và thả thư mục vào đây hoặc <button id="btn-select" type="button">Chọn thư mục</button></div>
+    <div id="selected-folder" style="color:#1976d2; margin-bottom:10px; font-size:15px;"></div>
+    <div class="input-row">
+      <label>Loại file:</label>
+      <input id="file-type" placeholder=".txt, .sty, .sf... (để trống: tất cả)" type="text">
+    </div>
+    <div class="input-row">
+      <label>Tiền tố:</label>
+      <input id="prefix" placeholder="Thêm vào đầu tên file" type="text">
+    </div>
+    <div class="input-row">
+      <label>Hậu tố:</label>
+      <input id="tail" placeholder="Thêm vào cuối tên file (trước đuôi)" type="text">
+    </div>
+    <div class="input-row">
+      <label>Thay thế:</label>
+      <input id="replace-from" placeholder="Từ..." type="text">
+      <span>→</span>
+      <input id="replace-to" placeholder="...sang" type="text">
+    </div>
+    <div class="input-row">
+      <label>Đuôi cũ:</label>
+      <input id="oldExt" placeholder=".sty" type="text">
+    </div>
+    <div class="input-row">
+      <label>Đuôi mới:</label>
+      <input id="newExt" placeholder=".midi" type="text">
+    </div>
+    <div class="input-row flex-row">
+      <input type="checkbox" id="recursive">
+      <label for="recursive" style="min-width:unset;">Quét cả thư mục con</label>
+    </div>
+    <ul class="file-list" id="file-list"></ul>
+    <button id="btn-process" disabled>Xử lý đổi tên</button>
+    <div id="result"></div>
+    <div id="error"></div>
+  </div>
   <script src="renderer.js"></script>
 </body>
 </html> 
