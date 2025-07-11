@@ -1,0 +1,16 @@
+Đã sửa các warning:
+1. Architecture Warning:
+Thay đổi: x64 → x64compatible
+Áp dụng cho: ArchitecturesAllowed và ArchitecturesInstallIn64BitMode
+2. Quick Launch Warning:
+Loại bỏ: Task quicklaunchicon (không cần thiết cho Windows hiện đại)
+Loại bỏ: Icon Quick Launch trong phần [Icons]
+3. Privileges Warning:
+Thay đổi: PrivilegesRequired=admin → PrivilegesRequired=lowest
+Lợi ích: Không cần quyền admin để cài đặt
+🎯 Kết quả:
+✅ Không còn warning khi compile
+✅ Installer nhẹ nhàng hơn (không cần admin)
+✅ Tương thích tốt hơn với Windows hiện đại
+✅ Giao diện sạch sẽ hơn (không có Quick Launch cũ)
+Bây giờ khi bạn compile với Inno Setup, sẽ không còn warning nào nữa! 🎉

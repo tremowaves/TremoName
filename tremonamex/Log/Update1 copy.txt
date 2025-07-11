@@ -1,0 +1,26 @@
+Tính năng UI mới:
+🎨 Dark Mode & Light Mode
+Chuyển đổi theme bằng nút ở góc phải trên cùng
+Color palette hiện đại: Gradient xanh tím (#6366F1, #8B5CF6)
+Dark theme: Nền tối (#0F0F23, #1A1B3A) với các card tối màu
+Light theme: Nền sáng (#F8FAFC, #E2E8F0) với card trắng
+🎭 Animations & Effects
+Hero animation cho folder picker
+Slide & Fade animations khi chọn thư mục
+Staggered animations cho danh sách file preview
+Smooth transitions giữa các màn hình
+OpenContainer transition với fadeThrough effect
+🎯 UI Improvements
+Gradient backgrounds cho cả light và dark mode
+Floating AppBar với glassmorphism effect
+Rounded corners và shadow effects
+Icon badges với gradient backgrounds
+Enhanced input fields với focus states
+Result messages với icons và colors
+Empty state cho file preview
+🔧 Enhanced UX
+Better folder picker với description text
+Improved button design với play icon
+Enhanced checkbox với scaling animation
+Better spacing và typography
+Responsive layout với CustomScrollView

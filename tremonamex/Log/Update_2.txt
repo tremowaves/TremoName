@@ -1,0 +1,28 @@
+📦 Tính năng Installer:
+✅ Thông tin cơ bản:
+Tên ứng dụng: TremoNameX
+Phiên bản: 1.0.0
+Nhà phát triển: Tremoman
+Thư mục cài đặt: Program Files\TremoNameX
+🗂️ File được đóng gói:
+tremonamex.exe - File chính của ứng dụng
+flutter_windows.dll - DLL Flutter cần thiết
+data/app.so - Mã ứng dụng Dart đã compile
+data/icudtl.dat - Data Unicode ICU
+data/flutter_assets/ - Tất cả assets của Flutter
+🎯 Tính năng nâng cao:
+Đa ngôn ngữ: Tiếng Anh & Tiếng Việt
+Tùy chọn tạo shortcut: Desktop & Quick Launch
+Auto-uninstall: Tự động gỡ phiên bản cũ khi cài mới
+Modern UI: Giao diện hiện đại của Inno Setup
+64-bit support: Chỉ hỗ trợ Windows 64-bit
+🚀 Cách sử dụng:
+Cài đặt Inno Setup: Tải từ https://jrsoftware.org/isinfo.php
+Mở file _install.iss trong Inno Setup Compiler
+Build installer: Nhấn Build → Compile
+Kết quả: File TremoNameX_Setup_v1.0.0.exe sẽ được tạo trong thư mục installer/
+📋 Tùy chỉnh (nếu cần):
+Thêm icon: Thay đổi SetupIconFile= thành đường dẫn icon (.ico)
+Thêm license: Thay đổi LicenseFile= thành đường dẫn file license
+Thay đổi thông tin: Sửa AppPublisher, AppVersion, v.v.
+Installer sẽ tự động tạo shortcut, hỗ trợ gỡ cài đặt, và có thể cập nhật phiên bản mới một cách mượt mà! 🎉

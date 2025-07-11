@@ -1,0 +1,12 @@
+Chức năng:
+Chọn thư mục (bằng nút hoặc kéo-thả)
+Lọc file theo đuôi
+Thêm tiền tố, hậu tố, thay thế chuỗi, đổi đuôi file
+Quét cả thư mục con
+Xem trước danh sách file sẽ đổi tên
+Đổi tên file hàng loạt, thông báo số lượng file đã đổi tên
+Giao diện hiện đại, hiệu ứng mượt, phong cách Apple/macOS
+Mình sẽ:
+Thay thế toàn bộ nội dung lib/main.dart bằng mã nguồn mới.
+Thêm các package Flutter cần thiết (file picker, path, animations...).
+Đảm bảo UI đẹp, hiệu ứng chuyển động mượt, icon và màu sắc hiện đại.
