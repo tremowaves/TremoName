@@ -38,6 +38,7 @@ dependencies:
   path: ^1.8.3
   provider: ^6.0.5
   animations: ^2.0.8
+  desktop_drop: ^1.4.0
 
 dev_dependencies:
   flutter_test:

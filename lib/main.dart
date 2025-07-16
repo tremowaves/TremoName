@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:animations/animations.dart';
+import 'package:desktop_drop/desktop_drop.dart';
 
 void main() {
   runApp(const TremoNameXApp());
@@ -141,6 +142,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool isRenaming = false;
   String resultMsg = '';
   String errorMsg = '';
+  bool _isDragging = false;
 
   late AnimationController _slideController;
   late AnimationController _fadeController;
@@ -184,15 +186,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<void> pickFolder() async {
     String? selected = await FilePicker.platform.getDirectoryPath();
     if (selected != null) {
-      setState(() {
-        folderPath = selected;
-        resultMsg = '';
-        errorMsg = '';
-      });
-      await listFiles();
-      _slideController.forward();
-      _fadeController.forward();
+      await _setFolder(selected);
     }
+  }
+
+  Future<void> _setFolder(String path) async {
+    setState(() {
+      folderPath = path;
+      resultMsg = '';
+      errorMsg = '';
+    });
+    await listFiles();
+    _slideController.forward();
+    _fadeController.forward();
   }
 
   Future<void> listFiles() async {
@@ -321,76 +327,110 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildFolderPicker() {
     return Hero(
       tag: 'folder-picker',
-      child: OpenContainer(
-        closedElevation: 0,
-        closedColor: Colors.transparent,
-        openColor: Theme.of(context).cardColor,
-        transitionType: ContainerTransitionType.fadeThrough,
-        transitionDuration: const Duration(milliseconds: 500),
-        closedBuilder: (context, open) => GestureDetector(
-          onTap: pickFolder,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: widget.isDarkMode
-                    ? [
-                        const Color(0xFF6366F1).withOpacity(0.1),
-                        const Color(0xFF8B5CF6).withOpacity(0.1),
-                      ]
-                    : [
-                        const Color(0xFF6366F1).withOpacity(0.05),
-                        const Color(0xFF8B5CF6).withOpacity(0.05),
-                      ],
+      child: DropTarget(
+        onDragDone: (detail) async {
+          if (detail.files.isNotEmpty) {
+            final file = detail.files.first;
+            final directory = Directory(file.path);
+            if (await directory.exists()) {
+              await _setFolder(file.path);
+            }
+          }
+        },
+        onDragEntered: (detail) {
+          setState(() {
+            _isDragging = true;
+          });
+        },
+        onDragExited: (detail) {
+          setState(() {
+            _isDragging = false;
+          });
+        },
+        child: OpenContainer(
+          closedElevation: 0,
+          closedColor: Colors.transparent,
+          openColor: Theme.of(context).cardColor,
+          transitionType: ContainerTransitionType.fadeThrough,
+          transitionDuration: const Duration(milliseconds: 500),
+          closedBuilder: (context, open) => GestureDetector(
+            onTap: pickFolder,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: _isDragging
+                      ? [
+                          const Color(0xFF10B981).withOpacity(0.2),
+                          const Color(0xFF059669).withOpacity(0.2),
+                        ]
+                      : widget.isDarkMode
+                          ? [
+                              const Color(0xFF6366F1).withOpacity(0.1),
+                              const Color(0xFF8B5CF6).withOpacity(0.1),
+                            ]
+                          : [
+                              const Color(0xFF6366F1).withOpacity(0.05),
+                              const Color(0xFF8B5CF6).withOpacity(0.05),
+                            ],
+                ),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(
+                  color: _isDragging
+                      ? const Color(0xFF10B981).withOpacity(0.5)
+                      : const Color(0xFF6366F1).withOpacity(0.2),
+                  width: _isDragging ? 2 : 1,
+                ),
               ),
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: const Color(0xFF6366F1).withOpacity(0.2),
-                width: 1,
-              ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)],
+              child: Column(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: _isDragging
+                            ? [const Color(0xFF10B981), const Color(0xFF059669)]
+                            : [const Color(0xFF6366F1), const Color(0xFF8B5CF6)],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    borderRadius: BorderRadius.circular(16),
+                    child: Icon(
+                      _isDragging ? Icons.cloud_upload : Icons.folder_outlined,
+                      color: Colors.white,
+                      size: 32,
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.folder_outlined,
-                    color: Colors.white,
-                    size: 32,
+                  const SizedBox(height: 16),
+                  Text(
+                    folderPath ?? (_isDragging ? 'Thả thư mục vào đây!' : 'Chọn thư mục để bắt đầu'),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: _isDragging ? const Color(0xFF10B981) : null,
+                    ),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
                   ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  folderPath ?? 'Chọn thư mục để bắt đầu',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                  const SizedBox(height: 8),
+                  Text(
+                    _isDragging
+                        ? 'Kéo và thả thư mục vào đây để chọn'
+                        : 'Nhấn để chọn thư mục hoặc kéo-thả thư mục vào đây',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: _isDragging ? const Color(0xFF10B981) : Colors.grey[600],
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Nhấn để chọn thư mục chứa file cần đổi tên',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey[600],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                ],
+              ),
             ),
           ),
+          openBuilder: (context, close) => const SizedBox.shrink(),
         ),
-        openBuilder: (context, close) => const SizedBox.shrink(),
       ),
     );
   }
